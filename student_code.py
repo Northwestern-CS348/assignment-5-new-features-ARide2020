@@ -37,17 +37,18 @@ def buildFeatureStatement(tree):
 
  ##### Your code to extractRoot here
 
+    TheRoot = languageTools.extractRoot(tree)
     # To get the subject of a verb, we use languageTools.extractSubject on the ROOT
 
 ##### Your code to extractSubject here
-
+    TheSubject = languageTools.extractSubject(TheRoot)
     # Once we have the primary noun, we then want to resolve it, that is, figure out what it refers
     # to using core.resolveObjectFOPC. Resolve object will give us a list of names that are referred to by the
     # words in the text.  They will always be names of existings objects. You need the names for the
     # other functions
 
 ##### Your code to resolveObjectFOPC here -- this will build some FOPC and Assert it
-
+    ResolveList = core.resolveObjectFOPC(TheSubject)
     # Then we need to figure out what is going to modify it. To do this, we go back to our verb and for
     # any modifiers associted with it. These will either be prepositional phrases or adjectives.
 
@@ -55,11 +56,12 @@ def buildFeatureStatement(tree):
     # the names and will build any FOPC associated with prepositional objects it finds and assert it.
 
 ##### Your code to resolveObjectFOPC here -- this takes the root, the primary (suibject) and your names
-
+    core.findAndAttachPrepObjectsFOPC(TheRoot, TheSubject, ResolveList)
     # Next we pull out any features associated with the object and attach them to the object. We can use
     # core.findAndAssertFeaturesFOPC to do this.  Like core.findAndAttachPrepObjectsFOPC, it takes the ROOT and
     # a list of names and builds the FOPC associated with any adjectives it finds
 
 ##### Your code to findAndAssertFeaturesFOPC here -- this takes the root and your names
-
+    core.findAndAssertFeaturesFOPC(TheRoot, ResolveList)
 ##### Your code to findAndAssertDefinitionsFOPC -- this takes the root and your names
+    core.findAndAssertDefinitionsFOPC(TheRoot, ResolveList)
